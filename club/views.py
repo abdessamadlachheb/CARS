@@ -1,7 +1,6 @@
 from django.http import HttpResponse 
 from django.shortcuts import render
-
-from .models import Reservation
+from .models import booking
 
 def home(request):
     return render(request, "home.html")
@@ -27,22 +26,14 @@ from django.shortcuts import redirect
 
 def booking(request):
     if request.method == 'POST':
-        full_name = request.POST.get('full_name') or "Unknown"
+        full_name = request.POST.get('full_name')
         phone = request.POST.get('phone')
         city = request.POST.get('city')
         car_name = request.POST.get('car_name')
         brand = request.POST.get('brand')
 
-        Reservation.objects.create(
-            full_name=full_name,
-            phone=phone,
-            city=city,
-            car_name=car_name,
-            brand=brand
-        )
         return redirect('booking_success')
-
-    return redirect('home')
+        # Save the booking to the database
 
 def brand_cars(request, brand_name):
     # Sample car data for each brand - you can replace with database data

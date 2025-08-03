@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Reservation
+from .models import booking
 
-@admin.register(Reservation)
-class ReservationAdmin(admin.ModelAdmin):
+@admin.register(booking)
+class bookingadmin(admin.ModelAdmin):
     list_display = ('full_name', 'phone', 'city', 'car_name', 'brand', 'timestamp')
