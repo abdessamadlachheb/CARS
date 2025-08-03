@@ -1,7 +1,6 @@
 from django.http import HttpResponse 
 from django.shortcuts import render
-from .models import reservation
-reservation.objects.all()
+from .models import Reservation
 
 def home(request):
     return render(request, "home.html")
@@ -33,7 +32,7 @@ def booking(request):
     car_name = request.POST.get('car_name')
     brand = request.POST.get('brand')
 
-    reservation.objects.create(
+    Reservation.objects.create(
         full_name=full_name,
         phone=phone,
         city=city,
