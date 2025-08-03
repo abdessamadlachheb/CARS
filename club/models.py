@@ -1,6 +1,6 @@
 from django.db import models
 
-class booking(models.Model):
+class reservation(models.Model):
     full_name = models.CharField(max_length=100, default="full_name")
     phone = models.CharField(max_length=20, default='phone')
     city = models.CharField(max_length=50, default='city')
