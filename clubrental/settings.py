@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7u!bj*(+jr*g7!jh$ywj+)gf24ndx14zsyv@w3=k!=hhj1%u8m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cars-kz8o.onrender.com', 'www.carsrental.site', 'carsrental.site']
 
 
 # Application definition
