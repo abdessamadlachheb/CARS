@@ -1,6 +1,8 @@
+from xml.dom.expatbuilder import ElementInfo
 from django.http import HttpResponse 
 from django.shortcuts import render
 from .models import Reservation
+
 
 def home(request):
     return render(request, "home.html")
@@ -24,75 +26,58 @@ def booking_success(request):
 
 from django.shortcuts import redirect
 
-def booking(request):
-    if request.method == 'POST':
-        full_name = request.POST.get('full_name')
-        phone = request.POST.get('phone')
-    city = request.POST.get('city')
-    car_name = request.POST.get('car_name')
-    brand = request.POST.get('brand')
 
-    Reservation.objects.create(
-        full_name=full_name,
-        phone=phone,
-        city=city,
-        car_name=car_name,
-        brand=brand
-    )
-
-    return redirect('booking_success')
-# Save the booking to the database
 
 def brand_cars(request, brand_name):
     # Sample car data for each brand - you can replace with database data
     car_data = {
         'audi': [
-            {'name': 'Audi A3', 'description': 'Luxury compact sedan', 'price': 150, 'image': 'img/audiA3.jpg'},
-            {'name': 'Audi A4', 'description': 'Premium midsize sedan', 'price': 200, 'image': 'img/AUDIA4.jpg'},
-            {'name': 'Audi A5', 'description': 'Executive luxury sedan', 'price': 250, 'image': 'img/AUDIA5.jpg'},
-            {'name': 'Audi A6', 'description': 'Executive luxury sedan', 'price': 250, 'image': 'img/AUDIA6.jpg'},
-
-        ],
+        {'name': 'Audi A3', 'description': 'Luxury compact sedan', 'price': 900, 'image': 'img/audiA3.jpg'},
+        {'name': 'Audi A4', 'description': 'Premium midsize sedan', 'price': 1100, 'image': 'img/AUDIA4.jpg'},
+        {'name': 'Audi A5', 'description': 'Executive luxury sedan', 'price': 1300, 'image': 'img/AUDIA5.jpg'},
+        {'name': 'Audi A6', 'description': 'Executive luxury sedan', 'price': 1400, 'image': 'img/AUDIA6.jpg'},
+    ],
         'dacia': [
-            {'name': 'Dacia Duster', 'description': 'Compact SUV', 'price': 80, 'image': 'img/dacia-duster.jpg'},
-            {'name': 'Dacia Sandero', 'description': 'Economy hatchback', 'price': 60, 'image': 'img/dacia-sandiro.jpg'},
-            {'name': 'Dacia Logan', 'description': 'Practical sedan', 'price': 70, 'image': 'img/DACIALOGAN.jpg'},
+            {'name': 'Dacia Duster', 'description': 'Compact SUV', 'price': 500, 'image': 'img/dacia-duster.jpg'},
+            {'name': 'Dacia Sandero', 'description': 'Economy hatchback', 'price': 500, 'image': 'img/dacia-sandiro.jpg'},
+            {'name': 'Dacia Logan', 'description': 'Practical sedan', 'price': 400, 'image': 'img/DACIALOGAN.jpg'},
         ],
         'ford': [
-            {'name': 'Ford Focus', 'description': 'Compact family car', 'price': 90, 'image': 'img/FORDFOCUS.jpg'},
-            {'name': 'Ford Fiesta', 'description': 'Small city car', 'price': 75, 'image': 'img/FORDFIESTA.jpg'},
-            {'name': 'Ford Escape', 'description': 'Compact SUV', 'price': 120, 'image': 'img/FORDWSCAPE.jpg'},
+            {'name': 'Ford Focus', 'description': 'Compact family car', 'price': 300, 'image': 'img/FORDFOCUS.jpg'},
+            {'name': 'Ford Fiesta', 'description': 'Small city car', 'price': 300, 'image': 'img/FORDFIESTA.jpg'},
+            {'name': 'Ford Escape', 'description': 'Compact SUV', 'price': 350, 'image': 'img/FORDWSCAPE.jpg'},
         ],
         'hundai': [
-            {'name': 'Hyundai i30', 'description': 'Modern hatchback', 'price': 85, 'image': 'img/HYUNDAI30.jpg'},
-            {'name': 'Hyundai Tucson 2024', 'description': 'Compact SUV', 'price': 110, 'image': 'img/TECSON24.jpg'},
-            {'name': 'Hyundai tucson 2025', 'description': 'Midsize SUV', 'price': 140, 'image': 'img/TECSON25.jpg'},
+            {'name': 'Hyundai i30', 'description': 'Modern hatchback', 'price': 700, 'image': 'img/HYUNDAI30.jpg'},
+            {'name': 'Hyundai Tucson 2024', 'description': 'Compact SUV', 'price': 800, 'image': 'img/TECSON24.jpg'},
+            {'name': 'Hyundai tucson 2025', 'description': 'Midsize SUV', 'price': 1200, 'image': 'img/TECSON25.jpg'},
         ],
         'mercedess': [
-            {'name': 'Mercedes A-Class', 'description': 'Premium compact', 'price': 180, 'image': 'img/MERCEDESCLASSA.jpg'},
-            {'name': 'Mercedes 220', 'description': 'Luxury sedan', 'price': 220, 'image': 'img/MERCEDESS220.jpg'},
-            {'name': 'Mercedes AMG', 'description': 'Executive sedan', 'price': 280, 'image': 'img/MERCEDESSAMG.jpg'},
+            {'name': 'Mercedes A-Class', 'description': 'Premium compact', 'price': 1000, 'image': 'img/MERCEDESCLASSA.jpg'},
+            {'name': 'Mercedes 220', 'description': 'Luxury sedan', 'price': 300, 'image': 'img/MERCEDESS220.jpg'},
+            {'name': 'Mercedes AMG', 'description': 'Executive sedan', 'price': 1000, 'image': 'img/MERCEDESSAMG.jpg'},
         ],
         'peugeaut': [
-            {'name': 'Peugeot 208', 'description': 'Compact city car', 'price': 70, 'image': 'img/P208.jpg'},
-            {'name': 'Peugeot 308', 'description': 'Family hatchback', 'price': 95, 'image': 'img/P308.jpg'},
-            {'name': 'Peugeot 2008', 'description': 'Compact SUV', 'price': 100, 'image': 'img/P2008.jpg'},
+            {'name': 'Peugeot 208', 'description': 'Compact city car', 'price': 400, 'image': 'img/P208.jpg'},
+            {'name': 'Peugeot 308', 'description': 'Family hatchback', 'price': 400, 'image': 'img/P308.jpg'},
+            {'name': 'Peugeot 2008', 'description': 'Compact SUV', 'price': 700, 'image': 'img/P2008.jpg'},
         ],
         'range': [
-            {'name': 'Range Rover Sport', 'description': 'Luxury SUV', 'price': 350, 'image': 'img/RANGESPORT.jpg'},
-            {'name': 'Range Rover Evoque', 'description': 'Compact luxury SUV', 'price': 280, 'image': 'img/RANGEEVOQUE.jpg'},
-            {'name': 'Range Rover Velar', 'description': 'Midsize luxury SUV', 'price': 320, 'image': 'img/RANGE1.jpg'},
+            {'name': 'Range Rover Sport', 'description': 'Luxury SUV', 'price': 3400, 'image': 'img/RANGESPORT.jpg'},
+            {'name': 'Range Rover Evoque', 'description': 'Compact luxury SUV', 'price': 3500, 'image': 'img/RANGEEVOQUE.jpg'},
+            {'name': 'Range Rover Velar', 'description': 'Midsize luxury SUV', 'price': 3500, 'image': 'img/RANGE1.png'},
         ],
         'volkswagn': [
-            {'name': 'Volkswagen Golf 5', 'description': 'Popular hatchback', 'price': 100, 'image': 'img/GOLF_5.jpeg'},
-            {'name': 'Volkswagen Golf 7', 'description': 'Popular hatchback', 'price': 100, 'image': 'img/GOLF7.jpg'},
-            {'name': 'Volkswagen Golf 7.5', 'description': 'Popular hatchback', 'price': 100, 'image': 'img/GOLF7.5.jpg'},
-            {'name': 'Volkswagen Golf 8', 'description': 'Popular hatchback', 'price': 100, 'image': 'img/GOLF8.jpg'},
-            {'name': 'Volkswagen Golf 8.5', 'description': 'Popular hatchback', 'price': 100, 'image': 'img/GOLF8.5.jpg'},
-            {'name': 'Volkswagen TUAREG', 'description': 'Midsize sedan', 'price': 130, 'image': 'img/TUAREG.jpg'},
-            {'name': 'Volkswagen TEROC', 'description': 'Compact SUV', 'price': 120, 'image': 'img/TEROC.jpg'},
+            {'name': 'Volkswagen Golf 5', 'description': 'Popular hatchback', 'price': 450, 'image': 'img/GOLF_5.jpeg'},
+            {'name': 'Volkswagen Golf 7', 'description': 'Popular hatchback', 'price': 500, 'image': 'img/GOLF7.jpg'},
+            {'name': 'Volkswagen Golf 7.5', 'description': 'Popular hatchback', 'price': 550, 'image': 'img/GOLF7.5.jpg'},
+            {'name': 'Volkswagen Golf 8', 'description': 'Popular hatchback', 'price': 600, 'image': 'img/GOLF8.jpg'},
+            {'name': 'Volkswagen Golf 8.5', 'description': 'Popular hatchback', 'price': 700, 'image': 'img/GOLF8.5.jpg'},
+            {'name': 'Volkswagen TUAREG', 'description': 'Midsize sedan', 'price': 1400, 'image': 'img/TUAREG.jpg'},
+            {'name': 'Volkswagen TEROC', 'description': 'Compact SUV', 'price': 750, 'image': 'img/TEROC.jpg'},
         ],
     }
+    
     
     cars = car_data.get(brand_name.lower(), [])
     return render(request, f"{brand_name.lower()}.html", {'cars': cars})
@@ -123,4 +108,30 @@ def volkswagn(request):
     return brand_cars(request, 'volkswagn')
  
 
+def booking_success(request):
+    if request.method == 'POST':
+        car_name = request.POST.get('car_name')
+        price = request.POST.get('price').replace('$', '')
+        full_name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        message = request.POST.get('message')
 
+        # Save to database
+        Reservation.objects.create(
+            car_name=car_name,
+            price=price,
+            full_name=full_name,
+            email=email,
+            phone=phone,
+            start_date=start_date,
+            end_date=end_date,
+            message=message ,
+            is_reserved=True
+        )
+
+        return render(request, 'booking_success.html', {'full_name': full_name})
+
+    return redirect('home')  # redirect if accessed directly

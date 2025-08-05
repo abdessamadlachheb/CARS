@@ -11,5 +11,7 @@ class Reservation(models.Model):
     message = models.TextField(blank=True )
     timestamp = models.DateTimeField(auto_now_add=True)
 
+   
+
     def __str__(self):
         return f"{self.full_name} - {self.car_name} ({self.start_date} to {self.end_date})"
