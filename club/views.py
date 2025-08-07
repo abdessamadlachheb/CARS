@@ -129,7 +129,6 @@ def booking_success(request):
             start_date=start_date,
             end_date=end_date,
             message=message ,
-            is_reserved=True
         )
 
         return render(request, 'booking_success.html', {'full_name': full_name})

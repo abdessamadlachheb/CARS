@@ -176,7 +176,7 @@
     <img src="{% static car.image %}" alt="{{ car.name }}">
     <h2>{{ car.name }}</h2>
     <p>{{ car.description }}</p>
-    <p><strong>Price: ${{ car.price }}/day</strong></p>
+    <p><strong>Price: DH{{ car.price }}/day</strong></p>
     <button class="reserve-btn" onclick="showBookingForm('{{ car.name }}', '{{ car.price }}')">Reserve Now</button>
   </div>
   {% endfor %}
