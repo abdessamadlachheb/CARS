@@ -113,7 +113,6 @@ def booking_success(request):
         car_name = request.POST.get('car_name')
         price = request.POST.get('price').replace('$', '')
         full_name = request.POST.get('name')
-        email = request.POST.get('email')
         phone = request.POST.get('phone')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
@@ -124,7 +123,6 @@ def booking_success(request):
             car_name=car_name,
             price=price,
             full_name=full_name,
-            email=email,
             phone=phone,
             start_date=start_date,
             end_date=end_date,
